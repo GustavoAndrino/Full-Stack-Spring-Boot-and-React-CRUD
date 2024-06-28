@@ -1,0 +1,27 @@
+# Java and Spring Boot
+/target/
+/*.log
+/*.jar
+/*.war
+/.classpath
+/.project
+/.settings/
+/bin/
+/.gradle/
+/build/
+/.mvn/
+/.idea/
+/.vscode/
+*.iml
+
+# Node.js
+/node_modules/
+/build/
+/dist/
+.env
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
