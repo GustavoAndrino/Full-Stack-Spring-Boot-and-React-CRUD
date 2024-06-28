@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +27,15 @@ public class UserController {
 	private UserRepository userRepository;
 	
 	@PostMapping("/user")
-	User newUser(@RequestBody User newUser) {
-		return userRepository.save(newUser);
+	public ResponseEntity<?> newUser(@RequestBody User newUser) {
+	    Optional<User> user = userRepository.findByEmail(newUser.getEmail());
+	    if (user.isPresent()) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+	    }
+	    User savedUser = userRepository.save(newUser);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 	}
+
 	
 	@GetMapping("/users")
 	List<User> getAllUsers(){
@@ -60,5 +68,10 @@ public class UserController {
 		return "User with id: " + id + " was deleted";
 	}
 	
+	
+	/*@PostMapping("/user")
+	User newUser(@RequestBody User newUser) {
+		return userRepository.save(newUser);
+	}*/
 	
 }
